@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "NewKrepysh.WinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "NewKrepysh.WinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
