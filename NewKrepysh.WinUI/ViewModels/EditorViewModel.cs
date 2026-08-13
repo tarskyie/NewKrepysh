@@ -1,14 +1,21 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using NewKrepysh.WinUI.Views;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using NewKrepysh.WinUI.Models;
+using NewKrepysh.WinUI.Services;
 
 namespace NewKrepysh.WinUI.ViewModels
 {
     public partial class EditorViewModel : ObservableObject
     {
+        [ObservableProperty]
+        private string projectId = Guid.NewGuid().ToString();
+
+        [ObservableProperty]
+        private string projectName = "Untitled Project";
+
         [ObservableProperty]
         private ObservableCollection<SitePage> pages = new()
         {
@@ -30,7 +37,23 @@ namespace NewKrepysh.WinUI.ViewModels
         [RelayCommand]
         private void NewPage()
         {
-            Pages.Add(new SitePage() { Title="New Page" });
+            var newPage = new SitePage() { Title = "New Page" };
+            Pages.Add(newPage);
+            SelectedSitePage = newPage;
+        }
+
+        [RelayCommand]
+        private void NewSubPage()
+        {
+            if (SelectedSitePage == null)
+            {
+                NewPage();
+                return;
+            }
+            var newSub = new SitePage() { Title = "New Sub Page" };
+            SelectedSitePage.Children.Add(newSub);
+            // Optional: select the newly created subpage
+            SelectedSitePage = newSub;
         }
 
         [RelayCommand(CanExecute = nameof(CanRemoveSelectedPage))]
@@ -70,5 +93,24 @@ namespace NewKrepysh.WinUI.ViewModels
         }
 
         private bool CanRemoveSelectedPage() => SelectedSitePage != null;
+
+        public void LoadProject(Project project)
+        {
+            ProjectId = project.Id;
+            ProjectName = project.Name;
+            Pages = project.Pages;
+            SelectedSitePage = Pages.FirstOrDefault();
+        }
+
+        public void Save()
+        {
+            var project = new Project
+            {
+                Id = ProjectId,
+                Name = ProjectName,
+                Pages = Pages
+            };
+            ProjectService.SaveProject(project);
+        }
     }
 }

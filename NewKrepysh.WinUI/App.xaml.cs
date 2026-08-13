@@ -28,6 +28,8 @@ namespace NewKrepysh.WinUI
     {
         private Window? _window;
         public static MainWindow? MainWindowInstance { get; private set; }
+        public static ViewModels.EditorViewModel? ActiveViewModel { get; set; }
+        public static Services.PreviewServer PreviewServerInstance { get; } = new();
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -46,6 +48,10 @@ namespace NewKrepysh.WinUI
         {
             _window = new MainWindow();
             MainWindowInstance = _window as MainWindow;
+            _window.Closed += (s, e) =>
+            {
+                PreviewServerInstance.Stop();
+            };
             _window.Activate();
         }
     }

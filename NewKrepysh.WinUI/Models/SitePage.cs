@@ -10,5 +10,5 @@ public partial class SitePage : ObservableObject
 
     public string HtmlContent { get; set; } = string.Empty;
 
-    public ObservableCollection<SitePage> Children { get; } = new();
+    public ObservableCollection<SitePage> Children { get; set; } = new();
 }

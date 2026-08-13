@@ -7,17 +7,45 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Height="80">
+    Height="100">
 
-    <ScrollView HorizontalScrollBarVisibility="Auto"
-                VerticalScrollBarVisibility="Hidden">
-        <StackPanel Orientation="Horizontal">
-            <Button VerticalAlignment="Stretch" 
-                    Command="{Binding NewPageCommand}"
-                    Content="New page" />
-            <Button VerticalAlignment="Stretch" 
-                    Command="{Binding RemoveSelectedPageCommand}"
-                    Content="Remove selected page" />
-        </StackPanel>
-    </ScrollView>
+    <Grid>
+        <ScrollView HorizontalScrollBarVisibility="Auto"
+                    VerticalScrollBarVisibility="Hidden">
+            <StackPanel Orientation="Horizontal" Spacing="12" Padding="12" VerticalAlignment="Center">
+                <TextBox Width="200" 
+                         Header="Project Name" 
+                         Text="{Binding ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         VerticalAlignment="Center"/>
+                <AppBarSeparator VerticalAlignment="Center"/>
+                
+                <Button Command="{Binding NewPageCommand}" 
+                        Content="New root page" 
+                        Style="{StaticResource AccentButtonStyle}" 
+                        VerticalAlignment="Center"/>
+                
+                <Button Command="{Binding NewSubPageCommand}" 
+                        Content="New subpage" 
+                        VerticalAlignment="Center"/>
+                
+                <Button Command="{Binding RemoveSelectedPageCommand}" 
+                        Content="Remove page" 
+                        VerticalAlignment="Center"/>
+                
+                <AppBarSeparator VerticalAlignment="Center"/>
+                
+                <Button Click="SaveProject_Click" 
+                        Content="Save project" 
+                        VerticalAlignment="Center"/>
+                
+                <Button Click="BuildSite_Click" 
+                        Content="Build &amp; Export" 
+                        VerticalAlignment="Center"/>
+                
+                <Button Click="PreviewSite_Click" 
+                        Content="Preview in browser" 
+                        VerticalAlignment="Center"/>
+            </StackPanel>
+        </ScrollView>
+    </Grid>
 </UserControl>
