@@ -32,6 +32,8 @@ namespace NewKrepysh.WinUI.Services
             
             string json = JsonSerializer.Serialize(project, options);
             File.WriteAllText(filePath, json);
+
+            DataService.UpdateProjectEntry(project);
         }
 
         public static List<Project> GetProjects()

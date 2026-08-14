@@ -83,13 +83,13 @@ namespace NewKrepysh.WinUI.Services
             }
         }
 
-        private static void UpdateProjectEntry(Project project)
+        public static void UpdateProjectEntry(Project project)
         {
             using (var connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
 
-                string query = @"UPDATE Project 
+                string query = @"UPDATE Projects 
                          SET Name = @Name, LastModified = @LastModified 
                          WHERE Id = @Id";
 

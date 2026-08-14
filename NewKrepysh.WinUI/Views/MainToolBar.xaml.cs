@@ -40,7 +40,7 @@ public sealed partial class MainToolBar : UserControl
     {
         if (ViewModel is EditorViewModel)
         {
-            SiteBuilder.Build(ViewModel.Pages, Path.Combine(ProjectService.AppDataDir, "previews", ParentPage.ViewModel.ProjectId));
+            SiteBuilder.Build(ViewModel.Pages, Path.Combine(ProjectService.AppDataDir, "previews", ViewModel.ProjectId));
         }
     }
 }

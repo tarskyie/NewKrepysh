@@ -12,6 +12,7 @@
 
     <Page.Resources>
         <conv:NullToIsEnabledConverter x:Key="NullToIsEnabledConverter" />
+        <conv:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter" />
     </Page.Resources>
 
     <Grid ColumnDefinitions="Auto,*">
@@ -36,7 +37,7 @@
                         <TextBlock Text="{x:Bind Name}" Margin="0,5,0,5"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Last modified: " />
-                            <TextBlock Text="{x:Bind LastModified}" />
+                            <TextBlock Text="{x:Bind LastModified, Converter={StaticResource UtcToLocalTimeConverter}}" />
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>

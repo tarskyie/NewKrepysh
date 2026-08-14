@@ -25,7 +25,7 @@ public sealed partial class EditorPage : Page
             mainToolBar.ViewModel = ViewModel;
         }
 
-        StartPreview();
+        //StartPreview();
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
