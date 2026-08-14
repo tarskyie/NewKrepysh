@@ -37,13 +37,9 @@
                 <Button Click="SaveProject_Click" 
                         Content="Save project" 
                         VerticalAlignment="Center"/>
-                
+
                 <Button Click="BuildSite_Click" 
-                        Content="Build &amp; Export" 
-                        VerticalAlignment="Center"/>
-                
-                <Button Click="PreviewSite_Click" 
-                        Content="Preview in browser" 
+                        Content="Update preview" 
                         VerticalAlignment="Center"/>
             </StackPanel>
         </ScrollView>

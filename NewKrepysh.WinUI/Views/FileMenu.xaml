@@ -6,13 +6,41 @@
     xmlns:local="using:NewKrepysh.WinUI.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:NewKrepysh.WinUI.Models"
+    xmlns:conv="using:NewKrepysh.WinUI.Converters"
     mc:Ignorable="d">
 
-    <Grid>
-        <StackPanel HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-            <Button Click="NewProjectButton_Click">New project</Button>
-            <Button>Open existing project</Button>
-        </StackPanel>
+    <Page.Resources>
+        <conv:NullToIsEnabledConverter x:Key="NullToIsEnabledConverter" />
+    </Page.Resources>
+
+    <Grid ColumnDefinitions="Auto,*">
+        <ScrollView Grid.Column="0">
+            <StackPanel>
+                <Button Content="New project" 
+                        Command="{x:Bind ViewModel.NewProjectCommand}"/>
+                <Button Content="Open selected"
+                        Click="OpenProject_Click"
+                        IsEnabled="{x:Bind ViewModel.SelectedProject, Mode=OneWay, Converter={StaticResource NullToIsEnabledConverter}}"/>
+                <Button Content="Remove selected"
+                        Command="{x:Bind ViewModel.DeleteProjectCommand}"/>
+            </StackPanel>
+        </ScrollView>
+        <ListView ItemsSource="{x:Bind ViewModel.Projects}"
+                  SelectedItem="{x:Bind ViewModel.SelectedProject, Mode=TwoWay}"
+                  Grid.Column="1"
+                  x:Name="ProjectsListView">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:Project">
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind Name}" Margin="0,5,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Last modified: " />
+                            <TextBlock Text="{x:Bind LastModified}" />
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>

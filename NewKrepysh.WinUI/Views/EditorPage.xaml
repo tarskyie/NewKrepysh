@@ -54,6 +54,8 @@
                     </ContentControl>
                 </ScrollView>
             </Border>
+
+            <WebView2 x:Name="PreviewWebView2" Grid.Column="2"></WebView2>
         </Grid>
     </Grid>
 </Page>

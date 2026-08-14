@@ -5,6 +5,7 @@ using NewKrepysh.WinUI.Services;
 using System.Collections;
 using NewKrepysh.WinUI.Models;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace NewKrepysh.WinUI.Views;
 
@@ -39,15 +40,7 @@ public sealed partial class MainToolBar : UserControl
     {
         if (ViewModel is EditorViewModel)
         {
-            // Do nothing.
-        }
-    }
-
-    private void PreviewSite_Click(object sender, RoutedEventArgs e)
-    {
-        if (ViewModel is EditorViewModel)
-        {
-            // Also do nothing.
+            SiteBuilder.Build(ViewModel.Pages, Path.Combine(ProjectService.AppDataDir, "previews", ParentPage.ViewModel.ProjectId));
         }
     }
 }

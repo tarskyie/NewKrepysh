@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -14,11 +15,11 @@ namespace NewKrepysh.WinUI.Services
 
         public string BaseUrl => $"http://localhost:{_port}/";
 
-        public void Start(string rootDirectory)
+        public string? Start(string rootDirectory)
         {
             if (_isRunning && _rootDirectory == rootDirectory)
             {
-                return; // Already running with same root
+                return null; // Already running with same root
             }
 
             Stop();
@@ -59,11 +60,13 @@ namespace NewKrepysh.WinUI.Services
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine($"Failed to start preview server: {ex.Message}");
-                    return;
+                    return null;
                 }
             }
 
-            Task.Run(ListenLoop);
+            _ = Task.Run(ListenLoop);
+
+            return _listener.Prefixes.FirstOrDefault();
         }
 
         private int GetFreePort()

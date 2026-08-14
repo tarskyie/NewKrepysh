@@ -6,6 +6,8 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using NewKrepysh.WinUI.Models;
+using NewKrepysh.WinUI.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,6 +32,11 @@ namespace NewKrepysh.WinUI
         public void Navigate(Type type)
         {
             Main_Frame.Navigate(type);
+        }
+
+        public void OpenProjectInEditor(Project project)
+        {
+            Main_Frame.Navigate(typeof(EditorPage), project);
         }
     }
 }

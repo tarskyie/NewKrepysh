@@ -8,12 +8,12 @@ namespace NewKrepysh.WinUI.Services
 {
     public static class ProjectService
     {
-        private static readonly string AppDataDir = Path.Combine(
+        public static readonly string AppDataDir = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "NewKrepysh"
         );
 
-        private static readonly string ProjectsDir = Path.Combine(AppDataDir, "projects");
+        public static readonly string ProjectsDir = Path.Combine(AppDataDir, "projects");
 
         static ProjectService()
         {

@@ -1,12 +1,17 @@
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
+using NewKrepysh.WinUI.Models;
+using NewKrepysh.WinUI.Services;
 using NewKrepysh.WinUI.ViewModels;
+using System;
+using System.IO;
 
 namespace NewKrepysh.WinUI.Views;
 
 public sealed partial class EditorPage : Page
 {
     public EditorViewModel ViewModel { get; set; }
-
+    private PreviewServer previewServer = new();
     public EditorPage()
     {
         InitializeComponent();
@@ -20,7 +25,39 @@ public sealed partial class EditorPage : Page
             mainToolBar.ViewModel = ViewModel;
         }
 
-        //ViewModel.NewPageCommand.Execute(null);
+        StartPreview();
+    }
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        base.OnNavigatedTo(e);
+
+        if (e.Parameter is Project project)
+        {
+            ViewModel.LoadProject(project);
+            StartPreview();
+        }
+    }
+
+    public void StartPreview()
+    {
+        if (ViewModel.Pages == null)
+            return;
+
+        string outputDir = Path.Combine(
+            ProjectService.AppDataDir,
+            "previews",
+            ViewModel.ProjectId
+        );
+
+        SiteBuilder.Build(ViewModel.Pages, outputDir);
+
+        string? url = previewServer.Start(outputDir);
+
+        if (url != null)
+        {
+            PreviewWebView2.Source = new Uri(url);
+        }
     }
 
     private void SelectorBar_SelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
