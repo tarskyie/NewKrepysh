@@ -19,6 +19,25 @@
                 <StackPanel Orientation="Horizontal"
                             Spacing="8"
                             VerticalAlignment="Center">
+                    <TextBox x:Name="EmailTextBox"
+                             Width="110"
+                             PlaceholderText="Your Email"
+                             VerticalAlignment="Center"/>
+                    <PasswordBox x:Name="PasswordPasswordBox"
+                                 Width="110"
+                                 PlaceholderText="Your Password"
+                                 VerticalAlignment="Center"/>
+                    <Button Click="Publish_Click" 
+                        Style="{StaticResource AccentButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <SymbolIcon Symbol="Upload"/>
+                            <TextBlock Text="Publish"/>
+                        </StackPanel>
+                    </Button>
+                    <Rectangle Width="1"
+                               Height="32"
+                               Fill="{ThemeResource DividerStrokeColorDefaultBrush}"
+                               Margin="8,0"/>
                     <Button Click="Export_Click">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <SymbolIcon Symbol="Share"/>

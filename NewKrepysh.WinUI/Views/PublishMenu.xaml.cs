@@ -30,5 +30,11 @@ namespace NewKrepysh.WinUI.Views
             if (ViewModel == null) return;
             PublishingService.Export(new Models.Project() { Id = ViewModel.ProjectId, Name = ViewModel.ProjectName, Pages = ViewModel.Pages });
         }
+
+        private void Publish_Click(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel == null) return;
+            PublishingService.Publish(EmailTextBox.Text, PasswordPasswordBox.Password, new Models.Project() { Id = ViewModel.ProjectId, Name = ViewModel.ProjectName, Pages = ViewModel.Pages });
+        }
     }
 }
