@@ -66,7 +66,12 @@ public sealed partial class EditorPage : Page
         {
             MainSelectionBar.SelectedItem = SelectorBarItemMain;
             if (App.MainWindowInstance == null) return;
-            App.MainWindowInstance.Navigate(typeof(FileMenu)); 
+            App.MainWindowInstance.Navigate(typeof(FileMenu));
+            return;
         }
+        if (MainSelectionBar.SelectedItem == SelectorBarItemPublish)
+            ToolFrame.Content = new PublishMenu() { ViewModel = this.ViewModel };
+        if (MainSelectionBar.SelectedItem == SelectorBarItemMain)
+            ToolFrame.Content = new MainToolBar() { ViewModel = this.ViewModel };
     }
 }

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <UserControl
     x:Class="NewKrepysh.WinUI.Views.MainToolBar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,41 +6,77 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Height="100">
+    Height="80">
 
-    <Grid>
+    <Border Margin="12"
+            Padding="12"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            CornerRadius="12">
         <ScrollView HorizontalScrollBarVisibility="Auto"
                     VerticalScrollBarVisibility="Hidden">
-            <StackPanel Orientation="Horizontal" Spacing="12" Padding="12" VerticalAlignment="Center">
-                <TextBox Width="200" 
-                         Header="Project Name" 
-                         Text="{Binding ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                         VerticalAlignment="Center"/>
-                <AppBarSeparator VerticalAlignment="Center"/>
-                
-                <Button Command="{Binding NewPageCommand}" 
-                        Content="New root page" 
-                        Style="{StaticResource AccentButtonStyle}" 
-                        VerticalAlignment="Center"/>
-                
-                <Button Command="{Binding NewSubPageCommand}" 
-                        Content="New subpage" 
-                        VerticalAlignment="Center"/>
-                
-                <Button Command="{Binding RemoveSelectedPageCommand}" 
-                        Content="Remove page" 
-                        VerticalAlignment="Center"/>
-                
-                <AppBarSeparator VerticalAlignment="Center"/>
-                
-                <Button Click="SaveProject_Click" 
-                        Content="Save project" 
-                        VerticalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal"
+                        Spacing="8"
+                        VerticalAlignment="Center">
 
-                <Button Click="BuildSite_Click" 
-                        Content="Update preview" 
+                <StackPanel Orientation="Horizontal"
+                            Spacing="8"
+                            VerticalAlignment="Center">
+                    <TextBox
+                        Width="220"
+                        PlaceholderText="Project name"
+                        Text="{Binding ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <Rectangle Width="1"
+                           Height="32"
+                           Fill="{ThemeResource DividerStrokeColorDefaultBrush}"
+                           Margin="8,0"/>
+
+                <Button Command="{Binding NewPageCommand}"
+                        Style="{StaticResource AccentButtonStyle}"
+                        ToolTipService.ToolTip="Create a new root page">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <SymbolIcon Symbol="Add"/>
+                        <TextBlock Text="Root page"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding NewSubPageCommand}"
+                        ToolTipService.ToolTip="Create a child page">
+                    <TextBlock Text="Subpage"/>
+                </Button>
+
+                <Button Command="{Binding RemoveSelectedPageCommand}"
+                        ToolTipService.ToolTip="Delete selected page">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <SymbolIcon Symbol="Delete"/>
+                        <TextBlock Text="Remove"/>
+                    </StackPanel>
+                </Button>
+
+                <Rectangle Width="1"
+                           Height="32"
+                           Fill="{ThemeResource DividerStrokeColorDefaultBrush}"
+                           Margin="8,0"/>
+
+                <Button Click="SaveProject_Click"
+                        ToolTipService.ToolTip="Save current project">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <SymbolIcon Symbol="Save"/>
+                        <TextBlock Text="Save"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Click="BuildSite_Click"
+                        ToolTipService.ToolTip="Regenerate preview">
+
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <SymbolIcon Symbol="Refresh"/>
+                        <TextBlock Text="Update preview"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </ScrollView>
-    </Grid>
+    </Border>
 </UserControl>

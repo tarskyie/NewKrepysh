@@ -137,7 +137,7 @@ namespace NewKrepysh.WinUI.Services
             }
         }
 
-        private static string SanitizeFilename(string filename)
+        public static string SanitizeFilename(string filename)
         {
             if (string.IsNullOrEmpty(filename)) return "page";
             

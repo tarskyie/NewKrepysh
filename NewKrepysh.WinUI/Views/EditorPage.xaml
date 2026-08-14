@@ -20,6 +20,7 @@
                          SelectionChanged="SelectorBar_SelectionChanged">
                 <SelectorBarItem x:Name="SelectorBarItemFile" Text="File" />
                 <SelectorBarItem x:Name="SelectorBarItemMain" Text="Main" IsSelected="True"/>
+                <SelectorBarItem x:Name="SelectorBarItemPublish" Text="Publish" />
             </SelectorBar>
             <Frame x:Name="ToolFrame" />
         </StackPanel>

@@ -25,6 +25,7 @@ namespace NewKrepysh.WinUI.Views
                 if (App.MainWindowInstance == null) return;
 
                 if (loadedProject == null) {
+                    project.Pages = new EditorViewModel().Pages;
                     App.MainWindowInstance.OpenProjectInEditor(project);
                     return;
                 }

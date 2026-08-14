@@ -18,6 +18,7 @@
     <None Remove="Views\EditorPage.xaml" />
     <None Remove="Views\FileMenu.xaml" />
     <None Remove="Views\MainToolBar.xaml" />
+    <None Remove="Views\PublishMenu.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +48,11 @@
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.11" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2526" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.3.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\PublishMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\MainToolBar.xaml">
