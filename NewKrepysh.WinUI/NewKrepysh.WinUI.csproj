@@ -15,6 +15,7 @@
 	<WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Views\AiToolBar.xaml" />
     <None Remove="Views\EditorPage.xaml" />
     <None Remove="Views\FileMenu.xaml" />
     <None Remove="Views\MainToolBar.xaml" />
@@ -48,6 +49,11 @@
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.11" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2526" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.3.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\AiToolBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\PublishMenu.xaml">

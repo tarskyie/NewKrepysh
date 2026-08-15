@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="NewKrepysh.WinUI.Views.AiToolBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NewKrepysh.WinUI.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:conv="using:NewKrepysh.WinUI.Converters"
+    Height="80">
+
+    <UserControl.Resources>
+        <conv:NullToIsEnabledConverter x:Key="NullToIsEnabledConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Border Margin="12"
+            Padding="12"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            CornerRadius="12">
+            <ScrollView HorizontalScrollBarVisibility="Auto"
+                    VerticalScrollBarVisibility="Hidden">
+                <StackPanel Orientation="Horizontal"
+                        Spacing="8"
+                        VerticalAlignment="Center">
+                    <TextBox x:Name="UrlTextBox"
+                            Width="130"
+                            PlaceholderText="API URL"
+                            VerticalAlignment="Center"/>
+                    <TextBox x:Name="ModelTextBox" 
+                             Width="70"
+                             PlaceholderText="Model"
+                             VerticalAlignment="Center"/>
+                    <PasswordBox x:Name="KeyPasswordBox"
+                                 Width="70"
+                                 PlaceholderText="Key"
+                                 VerticalAlignment="Center"/>
+                    <Rectangle Width="1"
+                               Height="32"
+                               Fill="{ThemeResource DividerStrokeColorDefaultBrush}"
+                               Margin="8,0"/>
+                    <TextBox x:Name="PromptTextBox" 
+                             Width="320"
+                             PlaceholderText="Prompt"
+                             VerticalAlignment="Center" />
+                    <Button Click="Generate_Click"
+                            IsEnabled="{x:Bind ViewModel.SelectedSitePage, Mode=OneWay, Converter={StaticResource NullToIsEnabledConverter}}"
+                            Style="{StaticResource AccentButtonStyle}"
+                            ToolTipService.ToolTip="Generate HTML markup for the page">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <SymbolIcon Symbol="Send"/>
+                            <TextBlock Text="Generate"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </ScrollView>
+        </Border>
+    </Grid>
+</UserControl>

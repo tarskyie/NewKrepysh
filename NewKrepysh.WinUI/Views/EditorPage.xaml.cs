@@ -73,5 +73,7 @@ public sealed partial class EditorPage : Page
             ToolFrame.Content = new PublishMenu() { ViewModel = this.ViewModel };
         if (MainSelectionBar.SelectedItem == SelectorBarItemMain)
             ToolFrame.Content = new MainToolBar() { ViewModel = this.ViewModel };
+        if (MainSelectionBar.SelectedItem == SelectorBarItemAi)
+            ToolFrame.Content = new AiToolBar() { ViewModel = this.ViewModel }; 
     }
 }
