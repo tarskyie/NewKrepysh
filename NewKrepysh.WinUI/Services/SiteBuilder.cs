@@ -11,20 +11,26 @@ namespace NewKrepysh.WinUI.Services
 {
     public static class SiteBuilder
     {
-        public static void Build(IList<SitePage> pages, string outputDirectory)
+        public static void Build(Project project, string outputDirectory)
         {
             Directory.CreateDirectory(outputDirectory);
 
+            // 0. Copy assets from /assets to outputDir
+            foreach (string asset in project.Assets)
+            {
+                File.Copy(Path.Combine(ProjectService.AppDataDir, "assets", project.Id, asset), Path.Combine(outputDirectory, asset), true);
+            }
+
             // 1. Assign unique safe filenames to all pages in the tree
             var pageToFilename = new Dictionary<SitePage, string>();
-            AssignFilenames(pages, pageToFilename);
+            AssignFilenames(project.Pages, pageToFilename);
 
             // 2. Write the stylesheet style.css
             string cssPath = Path.Combine(outputDirectory, "style.css");
             File.WriteAllText(cssPath, GetCssStyles());
 
             // If no pages exist, create a default index.html
-            if (!pages.Any())
+            if (!project.Pages.Any())
             {
                 string defaultHtml = @"<!DOCTYPE html>
 <html lang=""en"">
@@ -53,7 +59,7 @@ namespace NewKrepysh.WinUI.Services
                 string filename = pageToFilename[page];
                 string filePath = Path.Combine(outputDirectory, filename);
 
-                string navigationHtml = GenerateNavigationHtml(pages, pageToFilename, page);
+                string navigationHtml = GenerateNavigationHtml(project.Pages, pageToFilename, page);
 
                 string pageHtml = $@"<!DOCTYPE html>
 <html lang=""en"">
@@ -102,7 +108,7 @@ namespace NewKrepysh.WinUI.Services
                 }
             }
 
-            foreach (var page in pages)
+            foreach (var page in project.Pages)
             {
                 BuildPageRecursive(page);
             }

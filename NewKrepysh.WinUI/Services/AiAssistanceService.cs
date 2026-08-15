@@ -1,6 +1,7 @@
 ﻿using NewKrepysh.WinUI.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -19,8 +20,12 @@ namespace NewKrepysh.WinUI.Services
             string url,
             string apiKey,
             string model,
-            string prompt)
+            string prompt,
+            IList<string>? assets = null)
         {
+            if (assets == null)
+                assets = new List<string>();
+
             if (string.IsNullOrWhiteSpace(url))
                 return string.Empty;
 
@@ -32,7 +37,7 @@ namespace NewKrepysh.WinUI.Services
 
             var requestUri = url.TrimEnd('/') + "/v1/completions";
 
-            var fullPrompt = BuildPrompt(sitePage, prompt);
+            var fullPrompt = BuildPrompt(sitePage, prompt, assets);
 
             var completionRequest = new CompletionRequest
             {
@@ -76,7 +81,7 @@ namespace NewKrepysh.WinUI.Services
             }
         }
 
-        private static string BuildPrompt(SitePage sitePage, string userPrompt)
+        private static string BuildPrompt(SitePage sitePage, string userPrompt, IList<string> assets)
         {
             var promptBuilder = new StringBuilder();
 
@@ -87,6 +92,13 @@ namespace NewKrepysh.WinUI.Services
             {
                 promptBuilder.AppendLine("Current HTML content (for context):");
                 promptBuilder.AppendLine(sitePage.HtmlContent);
+                promptBuilder.AppendLine();
+            }
+
+            if (assets.Count > 0)
+            {
+                promptBuilder.AppendLine("Available assets stored at wwwroot (for context):");
+                promptBuilder.AppendLine(string.Join(", ", assets));
                 promptBuilder.AppendLine();
             }
 

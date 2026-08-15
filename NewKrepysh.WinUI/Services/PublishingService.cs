@@ -30,7 +30,7 @@ namespace NewKrepysh.WinUI.Services
                 Directory.Delete(Path.Combine(ProjectService.AppDataDir, "build"), true );
             }
 
-            SiteBuilder.Build(project.Pages, folderPath);
+            SiteBuilder.Build(project, folderPath);
             
             if (File.Exists(zipFilePath))
             {

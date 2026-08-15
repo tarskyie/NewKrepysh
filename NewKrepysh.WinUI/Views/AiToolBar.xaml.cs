@@ -28,7 +28,8 @@ namespace NewKrepysh.WinUI.Views
         {
             if (ViewModel == null) return;
             if (ViewModel.SelectedSitePage == null) return;
-            string markup = await AiAssistanceService.GenerateBody(ViewModel.SelectedSitePage, UrlTextBox.Text, model: ModelTextBox.Text, apiKey: KeyPasswordBox.Password, prompt: PromptTextBox.Text);
+            string markup = await AiAssistanceService.GenerateBody(ViewModel.SelectedSitePage, UrlTextBox.Text, model: ModelTextBox.Text, apiKey: KeyPasswordBox.Password, prompt: PromptTextBox.Text,
+                assets: ViewModel.Assets);
             ViewModel.SelectedSitePage.HtmlContent = markup;
         }
     }

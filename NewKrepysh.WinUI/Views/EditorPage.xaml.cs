@@ -50,7 +50,10 @@ public sealed partial class EditorPage : Page
             ViewModel.ProjectId
         );
 
-        SiteBuilder.Build(ViewModel.Pages, outputDir);
+        SiteBuilder.Build(new Project() { Id = ViewModel.ProjectId,
+        Name= ViewModel.ProjectName,
+        Pages = ViewModel.Pages,
+        Assets = ViewModel.Assets }, outputDir);
 
         string? url = previewServer.Start(outputDir);
 
