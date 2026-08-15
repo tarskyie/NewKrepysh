@@ -105,6 +105,17 @@ namespace NewKrepysh.WinUI.Services
                 }
                 catch { }
             }
+
+            // Also delete its assets directory if it exists
+            string assetsDir = Path.Combine(AppDataDir, "assets", id);
+            if (Directory.Exists(assetsDir))
+            {
+                try
+                {
+                    Directory.Delete(assetsDir, true);
+                }
+                catch { }
+            }
         }
     }
 }

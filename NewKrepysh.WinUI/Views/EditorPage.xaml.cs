@@ -75,5 +75,7 @@ public sealed partial class EditorPage : Page
             ToolFrame.Content = new MainToolBar() { ViewModel = this.ViewModel };
         if (MainSelectionBar.SelectedItem == SelectorBarItemAi)
             ToolFrame.Content = new AiToolBar() { ViewModel = this.ViewModel }; 
+        if (MainSelectionBar.SelectedItem == SelectorBarItemAssets)
+            ToolFrame.Content = new AssetsToolBar() { ViewModel = this.ViewModel };
     }
 }

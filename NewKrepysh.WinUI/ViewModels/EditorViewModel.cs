@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using NewKrepysh.WinUI.Models;
@@ -36,6 +39,9 @@ namespace NewKrepysh.WinUI.ViewModels
         private string projectName = "Untitled Project";
 
         [ObservableProperty]
+        private ObservableCollection<string> assets = new(); 
+
+        [ObservableProperty]
         private ObservableCollection<SitePage> pages = new()
         {
             new SitePage
@@ -52,6 +58,9 @@ namespace NewKrepysh.WinUI.ViewModels
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(RemoveSelectedPageCommand))]
         private SitePage? selectedSitePage;
+
+        [ObservableProperty]
+        private string? selectedAsset;
 
         [RelayCommand]
         private void NewPage()
@@ -98,6 +107,24 @@ namespace NewKrepysh.WinUI.ViewModels
             }
         }
 
+        [RelayCommand]
+        private async Task AddAsset()
+        {
+            string newAssetName = await AssetsService.SelectAndSaveAnAsset(ProjectId);
+            if (string.IsNullOrWhiteSpace(newAssetName)) return;
+            Assets.Add(newAssetName);
+            Save();
+        }
+        [RelayCommand(CanExecute = nameof(CanRemoveSelectedAsset))]
+        private void RemoveAsset()
+        {
+            if (SelectedAsset == null) return;
+            var filePath = Path.Combine(ProjectService.AppDataDir, "assets", ProjectId, SelectedAsset);
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+            Assets.Remove(SelectedAsset);
+        }
+
         private bool RemoveFromChildren(SitePage parent, SitePage target)
         {
             if (parent.Children.Remove(target)) return true;
@@ -112,12 +139,14 @@ namespace NewKrepysh.WinUI.ViewModels
         }
 
         private bool CanRemoveSelectedPage() => SelectedSitePage != null;
+        private bool CanRemoveSelectedAsset() => SelectedAsset != null;
 
         public void LoadProject(Project project)
         {
             ProjectId = project.Id;
             ProjectName = project.Name;
             Pages = project.Pages;
+            Assets = project.Assets;
             SelectedSitePage = Pages.FirstOrDefault();
         }
 
@@ -127,7 +156,8 @@ namespace NewKrepysh.WinUI.ViewModels
             {
                 Id = ProjectId,
                 Name = ProjectName,
-                Pages = Pages
+                Pages = Pages,
+                Assets = Assets
             };
             ProjectService.SaveProject(project);
         }

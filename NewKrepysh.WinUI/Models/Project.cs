@@ -9,5 +9,6 @@ namespace NewKrepysh.WinUI.Models
         public string Name { get; set; } = "Untitled Project";
         public DateTime LastModified { get; set; } = DateTime.UtcNow;
         public ObservableCollection<SitePage> Pages { get; set; } = new();
+        public ObservableCollection<string> Assets { get; set; } = new();
     }
 }

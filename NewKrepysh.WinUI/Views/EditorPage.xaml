@@ -22,23 +22,36 @@
                 <SelectorBarItem x:Name="SelectorBarItemMain" Text="Main" IsSelected="True"/>
                 <SelectorBarItem x:Name="SelectorBarItemAi" Text="AI assistance"/>
                 <SelectorBarItem x:Name="SelectorBarItemPublish" Text="Publish" />
+                <SelectorBarItem x:Name="SelectorBarItemAssets" Text="Assets" />
             </SelectorBar>
             <Frame x:Name="ToolFrame" />
         </StackPanel>
         <Grid Grid.Row="1" ColumnDefinitions="200, *, *">
-            <TreeView x:Name="SitePageTreeView"
-                      Grid.Column="0"
-                      ItemsSource="{x:Bind ViewModel.Pages}"
-                      SelectedItem="{x:Bind ViewModel.SelectedSitePage, Mode=TwoWay}"
-                      CanDragItems="True"
-                      CanReorderItems="True">
-                <TreeView.ItemTemplate>
-                    <DataTemplate x:DataType="models:SitePage">
-                        <TreeViewItem ItemsSource="{x:Bind Children}"
-              Content="{x:Bind Title, Mode=OneWay}" />
-                    </DataTemplate>
-                </TreeView.ItemTemplate>
-            </TreeView>
+            <Grid Grid.Column="0" RowDefinitions="*,Auto">
+                <StackPanel Grid.Row="0">
+                    <TextBlock Margin="12,0,0,0">Pages</TextBlock>
+                    <TreeView x:Name="SitePageTreeView"
+            Grid.Row="0"
+            ItemsSource="{x:Bind ViewModel.Pages}"
+            SelectedItem="{x:Bind ViewModel.SelectedSitePage, Mode=TwoWay}"
+            CanDragItems="True"
+            CanReorderItems="True">
+                        <TreeView.ItemTemplate>
+                            <DataTemplate x:DataType="models:SitePage">
+                                <TreeViewItem ItemsSource="{x:Bind Children}"
+                          Content="{x:Bind Title, Mode=OneWay}" />
+                            </DataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </StackPanel>
+                <StackPanel Grid.Row="1">
+                    <TextBlock Margin="12,0,0,0">Assets</TextBlock>
+                    <ListView Grid.Row="1"
+                              ItemsSource="{x:Bind ViewModel.Assets, Mode=OneWay}"
+                              SelectedValue="{x:Bind ViewModel.SelectedAsset}"
+                              Height="180" />
+                </StackPanel>
+            </Grid>
             
             <Border Grid.Column="1" Margin="10" VerticalAlignment="Stretch">
                 <ScrollView VerticalScrollBarVisibility="Visible">

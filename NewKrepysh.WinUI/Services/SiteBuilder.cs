@@ -27,23 +27,20 @@ namespace NewKrepysh.WinUI.Services
             if (!pages.Any())
             {
                 string defaultHtml = @"<!DOCTYPE html>
-<html>
+<html lang=""en"">
 <head>
     <meta charset=""utf-8"" />
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"" />
     <title>Empty Site</title>
     <link rel=""stylesheet"" href=""style.css"" />
 </head>
 <body>
-    <div class=""sidebar"">
-        <h2>Navigation</h2>
-        <ul class=""nav-list""><li class=""nav-item depth-0 active""><a href=""index.html"" class=""nav-link active"">Home</a></li></ul>
-    </div>
-    <div class=""content"">
+    <main class=""content"">
         <h1 class=""page-title"">Welcome</h1>
         <div class=""markup-content"">
-            <p>This static site is empty. Add pages in NewKrepysh to populate it.</p>
+            <p>This static site is empty. Add pages in New Krepysh to populate it.</p>
         </div>
-    </div>
+    </main>
 </body>
 </html>";
                 File.WriteAllText(Path.Combine(outputDirectory, "index.html"), defaultHtml);
@@ -59,29 +56,48 @@ namespace NewKrepysh.WinUI.Services
                 string navigationHtml = GenerateNavigationHtml(pages, pageToFilename, page);
 
                 string pageHtml = $@"<!DOCTYPE html>
-<html>
+<html lang=""en"">
 <head>
     <meta charset=""utf-8"" />
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"" />
     <title>{HttpUtility.HtmlEncode(page.Title)}</title>
     <link rel=""stylesheet"" href=""style.css"" />
 </head>
 <body>
-    <div class=""sidebar"">
+    
+    <div class=""sidebar-backdrop""></div>
+    <nav class=""sidebar"">
         <h2>Navigation</h2>
         {navigationHtml}
-    </div>
-    <div class=""content"">
+    </nav>
+    <main class=""content"">
+<div style=""display: flex; flex-direction: row;"">
+        <button class=""nav-toggle"" aria-label=""Toggle navigation"" aria-expanded=""false"">☰</button>
         <h1 class=""page-title"">{HttpUtility.HtmlEncode(page.Title)}</h1>
+</div>
         <div class=""markup-content"">
             {page.HtmlContent}
         </div>
-    </div>
+    </main>
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const body = document.body;
+        const backdrop = document.querySelector('.sidebar-backdrop');" + @"
+        
+        function toggleNav() {
+            const isOpen = body.classList.toggle('nav-open');
+            navToggle.setAttribute('aria-expanded', isOpen);
+        }
+        
+        navToggle.addEventListener('click', toggleNav);
+        backdrop.addEventListener('click', toggleNav);
+    </script>
 </body>
 </html>";
                 File.WriteAllText(filePath, pageHtml);
 
                 foreach (var child in page.Children)
-                 {
+                {
                     BuildPageRecursive(child);
                 }
             }
@@ -140,12 +156,12 @@ namespace NewKrepysh.WinUI.Services
         public static string SanitizeFilename(string filename)
         {
             if (string.IsNullOrEmpty(filename)) return "page";
-            
+
             // Remove invalid filename characters, convert spaces/special chars to hyphens
             string invalidChars = Regex.Escape(new string(Path.GetInvalidFileNameChars()));
             string invalidRegStr = string.Format(@"([{0}]|\s)+", invalidChars);
             string sanitized = Regex.Replace(filename, invalidRegStr, "-");
-            
+
             sanitized = sanitized.Trim('-').ToLowerInvariant();
             return string.IsNullOrEmpty(sanitized) ? "page" : sanitized;
         }
@@ -193,80 +209,163 @@ namespace NewKrepysh.WinUI.Services
     --border-color: #edebe9;
     --hover-color: #eaeaea;
     --active-bg: #edebe9;
+    --sidebar-width: 280px;
 }
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, ""Segoe UI"", Roboto, ""Helvetica Neue"", Arial, sans-serif;
+    font-family: ""Segoe UI"", -apple-system, BlinkMacSystemFont, Roboto, ""Helvetica Neue"", Arial, sans-serif;
     color: var(--text-color);
     background-color: #ffffff;
     display: flex;
     min-height: 100vh;
+    line-height: 1.5;
 }
+
 .sidebar {
-    width: 280px;
+    width: var(--sidebar-width);
     background-color: var(--sidebar-bg);
     border-right: 1px solid var(--border-color);
     padding: 20px;
-    box-sizing: border-box;
     flex-shrink: 0;
     overflow-y: auto;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
 }
+
 .sidebar h2 {
     font-size: 1.2rem;
     margin-top: 0;
     margin-bottom: 20px;
     color: var(--primary-color);
 }
+
 .content {
     flex-grow: 1;
-    padding: 40px;
-    box-sizing: border-box;
+    padding: 10px;
     overflow-y: auto;
+    max-width: 100%;
 }
-.nav-list, .nav-sublist {
+
+.nav-list,
+.nav-sublist {
     list-style: none;
     padding-left: 0;
     margin: 0;
 }
+
 .nav-sublist {
     padding-left: 16px;
     border-left: 1px solid var(--border-color);
     margin-top: 4px;
     margin-bottom: 4px;
 }
+
 .nav-item {
     margin-bottom: 4px;
 }
+
 .nav-link {
     display: block;
-    padding: 6px 10px;
+    padding: 8px 10px;
     text-decoration: none;
     color: var(--text-color);
     border-radius: 4px;
     font-size: 0.95rem;
     transition: background-color 0.15s ease;
+    word-break: break-word;
 }
+
 .nav-link:hover {
     background-color: var(--hover-color);
 }
+
 .nav-link.active {
     font-weight: 600;
     color: var(--primary-color);
     background-color: var(--active-bg);
 }
+
 .page-title {
     margin-top: 0;
     margin-bottom: 24px;
     font-size: 2rem;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 12px;
+    word-break: break-word;
 }
-.markup-content {
-    line-height: 1.6;
+
+.nav-toggle {
+    display: none;
+    top: 16px;
+    left: 16px;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.15s ease;
 }
-.markup-content p {
-    margin-top: 0;
-    margin-bottom: 1em;
+
+.nav-toggle:hover {
+    background-color: #106ebe;
+}
+
+.sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translateX(-100%);
+        height: 100vh;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .nav-open .sidebar {
+        transform: translateX(0);
+    }
+    
+    .nav-open .sidebar-backdrop {
+        display: block;
+        opacity: 1;
+    }
+    
+    .nav-toggle {
+        display: block;
+    }
+    
+    .content {
+        padding: 10px;
+        width: 100%;
+    }
+    
+    .page-title {
+        font-size: 1.6rem;
+        margin-bottom: 20px;
+    }
 }
 ";
         }
