@@ -20,10 +20,12 @@
                             Spacing="8"
                             VerticalAlignment="Center">
                     <TextBox x:Name="EmailTextBox"
+                             Text="{x:Bind ViewModel.Email, Mode=TwoWay}"
                              Width="110"
                              PlaceholderText="Your Email"
                              VerticalAlignment="Center"/>
                     <PasswordBox x:Name="PasswordPasswordBox"
+                                 Password="{x:Bind ViewModel.Password, Mode=TwoWay}"
                                  Width="110"
                                  PlaceholderText="Your Password"
                                  VerticalAlignment="Center"/>

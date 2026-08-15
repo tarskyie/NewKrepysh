@@ -10,6 +10,25 @@ namespace NewKrepysh.WinUI.ViewModels
 {
     public partial class EditorViewModel : ObservableObject
     {
+        #region PublishMenu
+        [ObservableProperty]
+        private string email;
+        [ObservableProperty]
+        private string password;
+        #endregion
+
+        #region AiToolBar
+        [ObservableProperty]
+        private string aiUrl;
+        [ObservableProperty]
+        private string aiKey;
+        [ObservableProperty]
+        private string aiModel;
+        [ObservableProperty]
+        private string aiPrompt;
+        #endregion
+
+
         [ObservableProperty]
         private string projectId = Guid.NewGuid().ToString();
 

@@ -25,14 +25,17 @@
                         Spacing="8"
                         VerticalAlignment="Center">
                     <TextBox x:Name="UrlTextBox"
+                             Text="{x:Bind ViewModel.AiUrl, Mode=TwoWay}"
                             Width="130"
                             PlaceholderText="API URL"
                             VerticalAlignment="Center"/>
                     <TextBox x:Name="ModelTextBox" 
+                             Text="{x:Bind ViewModel.AiModel, Mode=TwoWay}"
                              Width="70"
                              PlaceholderText="Model"
                              VerticalAlignment="Center"/>
                     <PasswordBox x:Name="KeyPasswordBox"
+                                 Password="{x:Bind ViewModel.AiKey, Mode=TwoWay}"
                                  Width="70"
                                  PlaceholderText="Key"
                                  VerticalAlignment="Center"/>
@@ -41,6 +44,7 @@
                                Fill="{ThemeResource DividerStrokeColorDefaultBrush}"
                                Margin="8,0"/>
                     <TextBox x:Name="PromptTextBox" 
+                             Text="{x:Bind ViewModel.AiPrompt, Mode=TwoWay}"
                              Width="320"
                              PlaceholderText="Prompt"
                              VerticalAlignment="Center" />

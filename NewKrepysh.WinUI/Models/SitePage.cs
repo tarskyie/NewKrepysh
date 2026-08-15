@@ -8,7 +8,8 @@ public partial class SitePage : ObservableObject
     [ObservableProperty]
     private string title = string.Empty;
 
-    public string HtmlContent { get; set; } = string.Empty;
+    [ObservableProperty]
+    private string htmlContent = string.Empty;
 
     public ObservableCollection<SitePage> Children { get; set; } = new();
 }

@@ -17,29 +17,72 @@
 
     <Grid ColumnDefinitions="Auto,*">
         <ScrollView Grid.Column="0">
-            <StackPanel>
-                <Button Content="New project" 
+            <StackPanel Spacing="16"
+                        Padding="12,4,12,12">
+                <Button Content="New project"
+                        HorizontalAlignment="Stretch"
                         Command="{x:Bind ViewModel.NewProjectCommand}"/>
                 <Button Content="Open selected"
+                        HorizontalAlignment="Stretch"
                         Click="OpenProject_Click"
                         IsEnabled="{x:Bind ViewModel.SelectedProject, Mode=OneWay, Converter={StaticResource NullToIsEnabledConverter}}"/>
                 <Button Content="Remove selected"
+                        HorizontalAlignment="Stretch"
                         Command="{x:Bind ViewModel.DeleteProjectCommand}"/>
             </StackPanel>
         </ScrollView>
-        <ListView ItemsSource="{x:Bind ViewModel.Projects}"
-                  SelectedItem="{x:Bind ViewModel.SelectedProject, Mode=TwoWay}"
-                  Grid.Column="1"
-                  x:Name="ProjectsListView">
+
+        <ListView
+                x:Name="ProjectsListView"
+                Grid.Column="1"
+                ItemsSource="{x:Bind ViewModel.Projects}"
+                SelectedItem="{x:Bind ViewModel.SelectedProject, Mode=TwoWay}"
+                SelectionMode="Single"
+                Padding="12,4,12,12"
+                IsItemClickEnabled="False">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="0,4,0,4" />
+                    <Setter Property="CornerRadius" Value="8" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:Project">
-                    <StackPanel>
-                        <TextBlock Text="{x:Bind Name}" Margin="0,5,0,5"/>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Last modified: " />
-                            <TextBlock Text="{x:Bind LastModified, Converter={StaticResource UtcToLocalTimeConverter}}" />
-                        </StackPanel>
-                    </StackPanel>
+                    <Border
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Padding="16,12">
+                        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*">
+                            <!-- Project Name -->
+                            <TextBlock
+                        Grid.Row="0"
+                        Text="{x:Bind Name}"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                        TextTrimming="CharacterEllipsis"
+                        ToolTipService.ToolTip="{x:Bind Name}" />
+
+                            <!-- Last Modified -->
+                            <StackPanel
+                        Grid.Row="1"
+                        Orientation="Horizontal"
+                        Spacing="4"
+                        Margin="0,4,0,0">
+                                <TextBlock
+                            Text="Last modified:"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                <TextBlock
+                            Text="{x:Bind LastModified, Converter={StaticResource UtcToLocalTimeConverter}}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
