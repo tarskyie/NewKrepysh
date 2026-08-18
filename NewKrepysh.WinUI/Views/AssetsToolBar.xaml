@@ -25,7 +25,7 @@
                         <TextBlock>Add an asset</TextBlock>
                     </Button>
 
-                    <Button>
+                    <Button Command="{x:Bind ViewModel.RemoveAssetCommand}">
                         <TextBlock>Remove selected asset</TextBlock>
                     </Button>
                 

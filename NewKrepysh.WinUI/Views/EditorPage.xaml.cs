@@ -14,7 +14,11 @@ public sealed partial class EditorPage : Page
     private PreviewServer previewServer = new();
     public EditorPage()
     {
+        var cachePath = Path.Combine(ProjectService.AppDataDir, "WebView2");
+        Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", cachePath);
+
         InitializeComponent();
+
         MainSelectionBar.SelectedItem = SelectorBarItemMain;
         ToolFrame.Content = new MainToolBar();
         ViewModel = ViewModel ?? new EditorViewModel();
